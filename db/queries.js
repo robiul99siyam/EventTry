@@ -23,3 +23,12 @@ export async function getEventById(eventId) {
 export async function createUser(user) {
   return await User.create(user);
 }
+
+export async function fundUserByCredentials(credentials) {
+  const user = await User.findOne(credentials).lean();
+  if (user) {
+    return repleaceIdObject(user);
+  } else {
+    return null;
+  }
+}
