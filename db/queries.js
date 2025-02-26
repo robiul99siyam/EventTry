@@ -4,6 +4,7 @@ import { Events } from "@/models/events-models";
 import { User } from "@/models/users-models";
 import connectMongo from "@/services/mongodb";
 import { repleaceId, repleaceIdObject } from "@/utils";
+import mongoose from "mongoose";
 
 export async function getAllEvents() {
   try {
@@ -31,4 +32,25 @@ export async function fundUserByCredentials(credentials) {
   } else {
     return null;
   }
+}
+
+export async function updateInterseted(eventId, authId) {
+  const event = await Events.findById(eventId);
+
+  if (event) {
+    const fundUserId = await event.interested_ids.find((id) => id === authId);
+
+    if (fundUserId) {
+      event.interested_ids.pull(new mongoose.Types.ObjectId(authId));
+    } else {
+      event.interested_ids.push(new mongoose.Types.ObjectId(authId));
+    }
+    event.save();
+  }
+}
+
+export async function updateGoing(eventId, authId) {
+  const event = await Events.findById(eventId);
+  event.going_ids.push(new mongoose.Types.ObjectId(authId));
+  event.save();
 }

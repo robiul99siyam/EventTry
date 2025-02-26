@@ -25,7 +25,11 @@ export default async function EventCard({ event }) {
         </div>
 
         {/* <!-- Buttons --> */}
-        <ActionButton />
+        <ActionButton
+          eventId={event?.id}
+          interestedUserIds={event?.interested_ids}
+          isgoingUserId={event?.going_ids}
+        />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import Navbar from "@/components/main/Navbar";
 import connectMongo from "@/services/mongodb";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./provider";
 export const lnter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -16,8 +17,10 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={lnter.className}>
-        <Navbar />
-        <main className="py-8">{children}</main>
+        <AuthProvider>
+          <Navbar />
+          <main className="py-8">{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );

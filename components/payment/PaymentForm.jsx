@@ -1,7 +1,13 @@
-export default function PaymentForm() {
+"use client";
+
+import { addGogin_ids } from "@/app/actions";
+import { useAuth } from "@/app/hooks";
+
+export default function PaymentForm({ eventId }) {
+  const { auth } = useAuth();
   return (
     <div>
-      <form>
+      <form action={() => addGogin_ids(eventId, auth)}>
         <div className="my-4 space-y-2">
           <label htmlFor="name" className="block">
             Name
