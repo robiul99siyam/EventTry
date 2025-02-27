@@ -14,7 +14,7 @@
     @apply flex flex-col my-6;
   }
   button:disabled {
-    @apply bg-green-600 cursor-default cursor-not-allowed;
+    @apply bg-green-600  cursor-not-allowed;
   }
   .login-form div {
     @apply flex flex-col gap-2 my-2;
