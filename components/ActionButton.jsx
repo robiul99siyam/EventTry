@@ -17,7 +17,7 @@ export default function ActionButton({
 
   const [isInterest, setInterset] = useState(InterestId);
   const [going, setGoing] = useState(isgoing);
-  console.log(going);
+
   const router = useRouter();
   async function toggleEvent() {
     if (auth) {

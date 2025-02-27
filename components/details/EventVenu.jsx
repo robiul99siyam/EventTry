@@ -1,9 +1,4 @@
-import { getCoordinates } from "@/utils";
-
 export default async function EventVenu({ eventDetails }) {
-  const local = await getCoordinates(eventDetails.location);
-  console.log(local.lat);
-  console.log(local.lon);
   return (
     <div className="overflow-hidden rounded-lg col-span-2 bg-[#242526]">
       <div className="w-full">

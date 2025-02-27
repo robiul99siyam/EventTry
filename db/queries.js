@@ -2,23 +2,31 @@
 
 import { Events } from "@/models/events-models";
 import { User } from "@/models/users-models";
-import connectMongo from "@/services/mongodb";
-import { repleaceId, repleaceIdObject } from "@/utils";
+import { replaceId, replaceIdObject } from "@/utils";
 import mongoose from "mongoose";
 
-export async function getAllEvents() {
+export async function getAllEvents({ query }) {
   try {
-    await connectMongo();
-    const events = await Events.find().lean();
-    return repleaceId(events);
+    let events = [];
+    if (query) {
+      const regex = new RegExp(query, "i");
+      events = await Events.find({ name: { $regex: regex } }).lean();
+    } else {
+      events = await Events.find().lean();
+    }
+    return JSON.parse(JSON.stringify(replaceId(events)));
   } catch (error) {
     console.error("Error fetching events:", error);
   }
 }
 
 export async function getEventById(eventId) {
-  const event = await Events.findById(eventId).lean();
-  return repleaceIdObject(event);
+  try {
+    const event = await Events.findById(eventId).lean();
+    return JSON.parse(JSON.stringify(replaceIdObject(event))); // Force plain object
+  } catch (error) {
+    console.error("Error fetching event:", error);
+  }
 }
 
 export async function createUser(user) {
@@ -28,7 +36,7 @@ export async function createUser(user) {
 export async function fundUserByCredentials(credentials) {
   const user = await User.findOne(credentials).lean();
   if (user) {
-    return repleaceIdObject(user);
+    return replaceIdObject(user);
   } else {
     return null;
   }
